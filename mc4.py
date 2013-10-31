@@ -76,7 +76,6 @@ diagonal = []
 for i in xrange(size_u):
     for j in xrange(size_u):
         if i == j:
-            # T[i][j] = 1 - sum(T[i])
             diagonal.append(T[i][j])
 
 for k, v in zip(U, diagonal):
