@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from le_arquivo import L1, L2, L3
-# a = ('a', 'b', 'c')
-# b = ('b', 'c', 'd')
-# c = ('a', 'b', 'd')
-
-# L1 = ('a', 'b', 'c')
-# L2 = ('d', 'e', 'c')
+from le_arquivo import L1, L2, L3, L4
 
 # gera U aplicando a funcao de uniao
 def set_U(*rankings):
@@ -53,10 +47,9 @@ for i in xrange(size_u):
     for j in xrange(size_u):
         if i != j:
             item = M[i][j]
-            M[i][j] = check(item, L1, L2)
+            M[i][j] = check(item, L1, L2, L3, L4)
         else:
             M[i][j] = 0
-# print M
 
 for i in xrange(size_u):
     for j in xrange(size_u):
@@ -65,7 +58,6 @@ for i in xrange(size_u):
         else:
             somatorio = sum(M[i]) / float(size_u)
             T[i][j] = (1.0 - somatorio)
-# print T
 
 dict_ranking = {k: 0 for k in U}
 diagonal = []
