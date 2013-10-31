@@ -1,9 +1,45 @@
 # -*- coding: utf-8 -*-
+import operator
 
-from le_arquivo import L1, L2, L3, L4
+def mc4(*rankings):
+    U = set_U(rankings)
+    size_u = len(U)
+
+    M = [[(y, x) for x in U] for y in U]
+    T = [[0 for x in U] for y in U]
+
+    for i in xrange(size_u):
+        for j in xrange(size_u):
+            if i != j:
+                item = M[i][j]
+                M[i][j] = check(item, rankings)
+            else:
+                M[i][j] = 0
+
+    for i in xrange(size_u):
+        for j in xrange(size_u):
+            if i != j:
+                T[i][j] = M[i][j] / float(size_u)
+            else:
+                somatorio = sum(M[i]) / float(size_u)
+                T[i][j] = (1.0 - somatorio)
+
+    dict_ranking = {k: 0 for k in U}
+    diagonal = []
+
+    for i in xrange(size_u):
+        for j in xrange(size_u):
+            if i == j:
+                diagonal.append(T[i][j])
+
+    for k, v in zip(U, diagonal):
+        dict_ranking[k] = v
+
+    ranking = sorted(dict_ranking.iteritems(), key=operator.itemgetter(1), reverse=True)
+    return map(lambda x: x[0], ranking)
 
 # gera U aplicando a funcao de uniao
-def set_U(*rankings):
+def set_U(rankings):
     cast = lambda ranking: set(ranking)
     rankings = map(cast, rankings)
     U = reduce(set.union, rankings)
@@ -21,7 +57,7 @@ def checkj_above_i(pair_ij, rank):
     except ValueError:
         return False
 
-def check(pair_ij, *rankings):
+def check(pair_ij, rankings):
     ambos = 0
     j_above_i = 0
 
@@ -36,47 +72,3 @@ def check(pair_ij, *rankings):
         return 0.5
     else:
         return j_above_i / ambos
-
-U = set_U(L1, L2)
-size_u = len(U)
-
-M = [[(y, x) for x in U] for y in U]
-T = [[0 for x in U] for y in U]
-
-for i in xrange(size_u):
-    for j in xrange(size_u):
-        if i != j:
-            item = M[i][j]
-            M[i][j] = check(item, L1, L2, L3, L4)
-        else:
-            M[i][j] = 0
-
-for i in xrange(size_u):
-    for j in xrange(size_u):
-        if i != j:
-            T[i][j] = M[i][j] / float(size_u)
-        else:
-            somatorio = sum(M[i]) / float(size_u)
-            T[i][j] = (1.0 - somatorio)
-
-dict_ranking = {k: 0 for k in U}
-diagonal = []
-
-for i in xrange(size_u):
-    for j in xrange(size_u):
-        if i == j:
-            diagonal.append(T[i][j])
-
-for k, v in zip(U, diagonal):
-    dict_ranking[k] = v
-
-import operator
-ranking = sorted(dict_ranking.iteritems(), key=operator.itemgetter(1), reverse=True)
-ranking = map(lambda x: x[0], ranking)
-
-def grava_ranking(data):
-    with open('resultado.txt', 'w') as f:
-        for item in data:
-            f.write(item)
-
-grava_ranking(ranking)
