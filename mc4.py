@@ -64,9 +64,9 @@ print M
 for i in xrange(size_u):
     for j in xrange(size_u):
         if i != j:
-            T[i][j] = M[i][j] / size_u
+            T[i][j] = M[i][j] / float(size_u)
         else:
-            somatorio = sum(M[i]) / size_u
+            somatorio = sum(M[i]) / float(size_u)
             T[i][j] = (1.0 - somatorio)
 print T
 
