@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from le_arquivo import L1, L2, L3
 # a = ('a', 'b', 'c')
 # b = ('b', 'c', 'd')
 # c = ('a', 'b', 'd')
 
-L1 = ('a', 'b', 'c')
-L2 = ('d', 'e', 'c')
+# L1 = ('a', 'b', 'c')
+# L2 = ('d', 'e', 'c')
 
 # gera U aplicando a funcao de uniao
 def set_U(*rankings):
@@ -15,18 +16,14 @@ def set_U(*rankings):
     return sorted(U)
 
 def have_both(pair_ij, rank):
-    i = pair_ij[0]
-    j = pair_ij[1]
+    i, j = pair_ij
     return i in rank and j in rank
 
 # verifica se o j e maior q i. ("a", "b")
 def checkj_above_i(pair_ij, rank):
     i, j = pair_ij
     try:
-        if rank.index(j) < rank.index(i):
-            return True
-        else:
-            return False
+        return rank.index(j) < rank.index(i)
     except ValueError:
         return False
 
@@ -59,7 +56,7 @@ for i in xrange(size_u):
             M[i][j] = check(item, L1, L2)
         else:
             M[i][j] = 0
-print M
+# print M
 
 for i in xrange(size_u):
     for j in xrange(size_u):
@@ -68,7 +65,7 @@ for i in xrange(size_u):
         else:
             somatorio = sum(M[i]) / float(size_u)
             T[i][j] = (1.0 - somatorio)
-print T
+# print T
 
 dict_ranking = {k: 0 for k in U}
 diagonal = []
@@ -84,4 +81,10 @@ for k, v in zip(U, diagonal):
 import operator
 ranking = sorted(dict_ranking.iteritems(), key=operator.itemgetter(1), reverse=True)
 ranking = map(lambda x: x[0], ranking)
-print ranking
+
+def grava_ranking(data):
+    with open('resultado.txt', 'w') as f:
+        for item in data:
+            f.write(item)
+
+grava_ranking(ranking)
