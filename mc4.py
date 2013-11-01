@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import operator
 
-def mc4(*rankings):
+def mc4(rankings):
     U = set_U(rankings)
     size_u = len(U)
 
